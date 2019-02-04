@@ -1,0 +1,6 @@
+2019/02/04 00:08:13.840 | RestApi.Controllers.PatientsController..ctor :: TRACE | LPTIN310 
+ StackTrace:  
+
+2019/02/04 00:08:14.155 | RestApi.Controllers.PatientsController..ctor :: ERROR | LPTIN310 
+ Exception Message: 
+
