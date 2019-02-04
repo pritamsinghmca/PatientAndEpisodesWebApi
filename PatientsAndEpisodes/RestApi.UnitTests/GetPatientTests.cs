@@ -11,6 +11,10 @@ using System.Web.Http.Routing;
 
 namespace RestApi.UnitTests
 {
+    /// <summary>
+    /// GetPatientTests Class.
+    /// 
+    /// </summary>
     [TestFixture]
     public class GetPatientTests
     {
