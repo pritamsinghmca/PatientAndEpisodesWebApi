@@ -12,12 +12,9 @@ namespace RestApi.Controllers
         #region Constractor and Variables
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IPatientRepository _patientRepository = null;
-        private readonly IDatabaseContext _databaseContext = new InMemoryPatientContext();
         public PatientsController(IPatientRepository patientRepository)
         {
             this._patientRepository = patientRepository;
-            //this._databaseContext = databaseContext;
-
         }
         #endregion
 
@@ -42,7 +39,7 @@ namespace RestApi.Controllers
             catch (Exception ex)
             {
                 logger.Trace($"StackTrace: {ex.StackTrace}");
-                logger.Error($"Exception Message: {ex.Message}");
+                logger.Error($"Exception : {ex.Message}");
             }
 
             return patientDetials;

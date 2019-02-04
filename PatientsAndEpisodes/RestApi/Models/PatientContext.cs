@@ -10,6 +10,7 @@ namespace RestApi.Models
         public PatientContext()
             : base("PatientContext")
         {
+            this.Configuration.LazyLoadingEnabled = false;
             Database.SetInitializer<PatientContext>(null);
         }
 
@@ -18,7 +19,6 @@ namespace RestApi.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }

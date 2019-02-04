@@ -7,6 +7,11 @@ using System.Web;
 
 namespace RestApi.Repository
 {
+    /// <summary>
+    /// PatientRepository class.
+    /// It's a concrete class which implements IPatientRepository interface.
+    /// its a repository which provids functionality against patient entity.
+    /// </summary>
     public class PatientRepository : IPatientRepository
     {
         #region Constractor
@@ -20,7 +25,8 @@ namespace RestApi.Repository
 
         #region Methods
         /// <summary>
-        /// Method to get patient details along with episodes associated with the patient
+        /// Method to get patient record along with episodes associated with the patient
+        /// based on patientId.
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns></returns>
@@ -29,16 +35,26 @@ namespace RestApi.Repository
             var patient = new Patient();
             try
             {
-                patient = _databaseContext.Patients.Where(P => P.PatientId == patientId).FirstOrDefault();
+                
+                // Load the blog related to a given post
+
+                patient = _databaseContext.Patients
+                                            .AsQueryable()
+                                            .Where(P => P.PatientId == patientId)
+                                            .FirstOrDefault();
                 if (patient != null)
                 {
-                    patient.Episodes = _databaseContext.Episodes.Where(E => E.PatientId == patientId).ToList();
+                    patient.Episodes = _databaseContext.Episodes
+                                                        .AsQueryable()
+                                                        .Where(E => E.PatientId == patientId)
+                                                        .ToList();
                 }
+                else { patient = new Patient(); patient.PatientId = patientId; }
             }
             catch (Exception ex)
             {
                 logger.Trace($"StackTrace: {ex.StackTrace}");
-                logger.Error($"Exception Message: {ex.Message}");
+                logger.Error($"Exception : {ex.Message}");
             }
             return patient;
         }
