@@ -20,33 +20,56 @@ namespace RestApi.UnitTests
     {
         #region Constractor and Variables
         private readonly IPatientRepository _patientRepository = null;
-        private  PatientsController _patientsController = null;
         public GetPatientTests()
         {
             this._patientRepository = new PatientRepository(new PatientContext());
         }
         #endregion
-        
+
+
+        #region Test Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
-        public void GetPatient_GettingPatient_ReturnPatient()
+        public void GetPatient_CheckingNullTest_ReturnPatient()
         {
             //Arrange
-            int patientId = 1;
-            _patientsController = new PatientsController(_patientRepository);
+            int patientId = 5;
+            var patientsController = new PatientsController(_patientRepository);
             // _patientsController.Request = new HttpRequestMessage();
             //_patientsController.Configuration = new HttpConfiguration();
 
             //Act
-            var patientDetials = _patientsController.Get(patientId);
+            var patientDetials = patientsController.Get(patientId);
 
             //assert
-            Assert.IsNotNull(patientDetials);
-            Assert.AreEqual(patientId, patientDetials.PatientId);
+            Assert.IsNull(patientDetials);
         }
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test]
+        public void GetPatient_GettingPatientTest_ReturnPatient()
+        {
+            //Arrange
+            int ExpectedPatientId = 1;
+            var patientsController = new PatientsController(_patientRepository);
+            // _patientsController.Request = new HttpRequestMessage();
+            //_patientsController.Configuration = new HttpConfiguration();
+
+            //Act
+            var ActualPatient = patientsController.Get(ExpectedPatientId);
+
+            //assert
+            Assert.AreEqual(ExpectedPatientId, ActualPatient.PatientId);
+        }
+
 
         [Test]
         public void PutItem_ShouldReturnStatusCode()
-
         {
             //var v = StatusCodeResult;
             //var controller = new ItemController(new TestUnitTestMockingConext());
@@ -83,6 +106,7 @@ namespace RestApi.UnitTests
         //Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         ////var actual = response.Content.ReadAsAsync<List<Employee>>().Result;
         ////Assert.AreEqual(expected.Count, actual.Count);
-        ////Assert.AreNotEqual(null, response.Content);
+        ////Assert.AreNotEqual(null, response.Content); 
+        #endregion
     }
 }

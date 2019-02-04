@@ -22,17 +22,17 @@ namespace RestApi.Repository
         /// <summary>
         /// Method to get patient details along with episodes associated with the patient
         /// </summary>
-        /// <param name="PatientId"></param>
+        /// <param name="patientId"></param>
         /// <returns></returns>
-        public Patient GetPatient(int PatientId)
+        public Patient GetPatient(int patientId)
         {
             var patient = new Patient();
             try
             {
-                patient = _databaseContext.Patients.Where(P => P.PatientId == PatientId).FirstOrDefault();
+                patient = _databaseContext.Patients.Where(P => P.PatientId == patientId).FirstOrDefault();
                 if (patient != null)
                 {
-                    patient.Episodes = _databaseContext.Episodes.Where(E => E.PatientId == PatientId).ToList();
+                    patient.Episodes = _databaseContext.Episodes.Where(E => E.PatientId == patientId).ToList();
                 }
             }
             catch (Exception ex)
