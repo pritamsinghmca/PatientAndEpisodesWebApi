@@ -32,31 +32,37 @@ namespace RestApi.Repository
         /// <returns></returns>
         public Patient GetPatient(int patientId)
         {
-            var patient = new Patient();
             try
             {
-                
-                // Load the blog related to a given post
+                /* Note:
+                 *  Getting patient record based on patientId but if patient record is not found than
+                 *  no need to get patient's episodes hence not querying episode.
+                 */
 
-                patient = _databaseContext.Patients
-                                            .AsQueryable()
-                                            .Where(P => P.PatientId == patientId)
-                                            .FirstOrDefault();
+                #region Get Patient Record
+                var patient = _databaseContext.Patients
+                                              .AsQueryable()
+                                              .Where(P => P.PatientId == patientId)
+                                              .FirstOrDefault();
+                #endregion
                 if (patient != null)
                 {
+                    #region If Patient record found, getting episodes associated with Patient
                     patient.Episodes = _databaseContext.Episodes
-                                                        .AsQueryable()
-                                                        .Where(E => E.PatientId == patientId)
-                                                        .ToList();
+                                                       .AsQueryable()
+                                                       .Where(E => E.PatientId == patientId)
+                                                       .ToList();
+                    #endregion
                 }
-                else { patient = new Patient(); patient.PatientId = patientId; }
+
+                return patient;
             }
             catch (Exception ex)
             {
                 logger.Trace($"StackTrace: {ex.StackTrace}");
                 logger.Error($"Exception : {ex.Message}");
             }
-            return patient;
+            return null;
         }
         #endregion
     }

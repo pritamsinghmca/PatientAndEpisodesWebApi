@@ -4,11 +4,6 @@ using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Repository;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Routing;
 
 namespace RestApi.UnitTests
 {
@@ -20,7 +15,7 @@ namespace RestApi.UnitTests
     public class GetPatientTests
     {
         #region Constractor and Variables
-        private readonly IPatientRepository patientRepository = null;
+        private  IPatientRepository patientRepository = null;
         public GetPatientTests()
         {
             this.patientRepository = new PatientRepository(new PatientContext());
@@ -28,6 +23,23 @@ namespace RestApi.UnitTests
         #endregion
 
         #region Test Methods
+        /// <summary>
+        /// GetPatient_CheckingNullTest_ReturnPatientRecord Test Method.
+        /// Checking null patient record based on patientId.
+        /// </summary>
+        [Test]
+        public void GetPatient_CheckingNullTest_ReturnNull()
+        {
+            //ARRANGE
+            int patientId = 5;
+            var patientsController = new PatientsController(patientRepository);
+
+            //ACT
+            var actualPatient = patientsController.Get(patientId);
+
+            //ASSERT
+            Assert.That(actualPatient, Is.Null);
+        }
 
         /// <summary>
         /// GetPatient_GettingPatientBasedOnPatientIdTest_ReturnPatientRecord Method.
@@ -61,26 +73,7 @@ namespace RestApi.UnitTests
             Assert.That(expectedPatient.NhsNumber, Is.EqualTo(actualPatient.NhsNumber));
         }
 
-        /// <summary>
-        /// GetPatient_CheckingNullTest_ReturnPatientRecord Test Method.
-        /// Checking null patient record based on patientId.
-        /// </summary>
-        [Test]
-        public void GetPatient_CheckingNullTest_ReturnPatientRecord()
-        {
-            //ARRANGE
-            int patientId = 5;
-            var patientsController = new PatientsController(patientRepository);
-
-            //ACT
-            var actualPatient = patientsController.Get(patientId);
-
-            //ASSERT
-            Assert.That(actualPatient.NhsNumber, Is.Null);
-            Assert.That(actualPatient.FirstName, Is.Null);
-            Assert.That(actualPatient.LastName, Is.Null);
-            Assert.That(actualPatient.Episodes, Is.Null);
-        }
+     
        
         #endregion
     }
